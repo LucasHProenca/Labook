@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PostBusiness } from "../business/PostBusiness";
 import { PostDatabase } from "../database/PostsDatabase";
 import { UserDatabase } from "../database/UsersDatabase";
+import { BaseError } from "../errors/BaseError";
 import { Posts } from "../models/Posts";
 import { PostDB } from "../types";
 
@@ -18,15 +19,15 @@ export class PostController {
             res.status(200).send(posts)
         } catch (error: any) {
             console.log(error)
-
-            if (req.statusCode === 200) {
+    
+            if (res.statusCode === 200) {
                 res.status(500)
             }
-
-            if (error instanceof Error) {
-                res.send(error.message)
+    
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
     }
@@ -48,15 +49,15 @@ export class PostController {
             res.status(201).send({ posts })
         } catch (error: any) {
             console.log(error)
-
-            if (req.statusCode === 200) {
+    
+            if (res.statusCode === 200) {
                 res.status(500)
             }
-
-            if (error instanceof Error) {
-                res.send(error.message)
+    
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
     }
@@ -75,15 +76,15 @@ export class PostController {
             res.status(200).send(post)
         } catch (error: any) {
             console.log(error)
-
-            if (req.statusCode === 200) {
+    
+            if (res.statusCode === 200) {
                 res.status(500)
             }
-
-            if (error instanceof Error) {
-                res.send(error.message)
+    
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
     }
@@ -101,15 +102,15 @@ export class PostController {
             res.status(200).send(post)
         } catch (error: any) {
             console.log(error)
-
-            if (req.statusCode === 200) {
+    
+            if (res.statusCode === 200) {
                 res.status(500)
             }
-
-            if (error instanceof Error) {
-                res.send(error.message)
+    
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
     }

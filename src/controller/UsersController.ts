@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
 import { UserDatabase } from "../database/UsersDatabase";
+import { BaseError } from "../errors/BaseError";
 import { Users } from "../models/Users";
 import { UserDB } from "../types";
 
@@ -22,15 +23,15 @@ export class UsersController {
             res.status(201).send(user)
         } catch (error: any) {
             console.log(error)
-
-            if (req.statusCode === 200) {
+    
+            if (res.statusCode === 200) {
                 res.status(500)
             }
-
-            if (error instanceof Error) {
-                res.send(error.message)
+    
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
     }
@@ -98,15 +99,15 @@ export class UsersController {
             res.status(200).send({message: "Um token jwt"})
         } catch (error: any) {
             console.log(error)
-
-            if (req.statusCode === 200) {
+    
+            if (res.statusCode === 200) {
                 res.status(500)
             }
-
-            if (error instanceof Error) {
-                res.send(error.message)
+    
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
     }

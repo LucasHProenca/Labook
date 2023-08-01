@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
-import { UsersController } from './controller/UsersController'
-import { PostController } from './controller/PostsController'
+import { userRouter } from './router/userRouter'
+import { postRouter } from './router/postsRouter'
 
 const app = express()
 
@@ -30,15 +30,9 @@ app.get("/ping", async (req: Request, res: Response) => {
     }
 })
 
-const userController = new UsersController()
-const postController = new PostController()
 
-app.post("/users/signup", userController.userSignUp)
 
-app.get("/posts", postController.getPosts)
 
-app.post("/posts", postController.createPost)
+app.use("/users", userRouter)
 
-app.put("/posts/:id", postController.editPost)
-
-app.delete("/posts/:id", postController.deletePosts)
+app.use("/posts", postRouter)
