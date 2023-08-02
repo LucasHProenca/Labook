@@ -16,5 +16,10 @@ export class UserDatabase extends BaseDatabase {
         const [userDBExists]: UserDB[] = await BaseDatabase.connection(UserDatabase.TABLE_USERS).where({email})
         return userDBExists
     }
+
+    public async login(email: string, password: string): Promise<UserDB | undefined> {
+        const [userDBExists]: UserDB[] = await BaseDatabase.connection(UserDatabase.TABLE_USERS).where({email, password})
+        return userDBExists
+    } 
     // aqui tem o login
 }
