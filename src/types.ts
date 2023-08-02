@@ -1,4 +1,4 @@
-export type UserDB = {
+export interface UserDB {
     id: string,
     name: string,
     email: string,
@@ -7,7 +7,7 @@ export type UserDB = {
     created_at: string
 }
 
-export type PostDB = {
+export interface PostDB {
     id: string,
     creator_id: string,
     content: string,
@@ -17,7 +17,7 @@ export type PostDB = {
     updated_at: string,
 }
 
-export type LikesDislikesDB = {
+export interface LikesDislikesDB {
     user_id: string,
     post_id: string,
     like: number
