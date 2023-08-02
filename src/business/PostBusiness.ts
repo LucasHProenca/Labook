@@ -1,5 +1,7 @@
 import { PostDatabase } from "../database/PostsDatabase"
 import { UserDatabase } from "../database/UsersDatabase"
+import { BadRequestError } from "../errors/BadRequestError"
+import { NotFoundError } from "../errors/NotFoundError"
 import { Posts } from "../models/Posts"
 import { PostDB } from "../types"
 
@@ -32,27 +34,27 @@ export class PostBusiness {
 
         if (typeof id !== "string") {
             // res.status(400) verificar todos os erros dps
-            throw new Error("'id' deve ser string")
+            throw new BadRequestError("'id' deve ser string")
         }
 
         if (typeof creator_id !== "string") {
             // res.status(400)
-            throw new Error("'creator' deve ser string")
+            throw new BadRequestError("'creator' deve ser string")
         }
 
         if (typeof content !== "string") {
             // res.status(400)
-            throw new Error("'content' deve ser string")
+            throw new BadRequestError("'content' deve ser string")
         }
 
         if (typeof likes !== "number") {
             // res.status(400)
-            throw new Error("'likes' deve ser number")
+            throw new BadRequestError("'likes' deve ser number")
         }
 
         if (typeof dislikes !== "number") {
             // res.status(400)
-            throw new Error("'dislikes' deve ser number")
+            throw new BadRequestError("'dislikes' deve ser number")
         }
 
         const postDatabase = new PostDatabase()
@@ -62,12 +64,12 @@ export class PostBusiness {
 
         if (postIdExists) {
             // res.status(400)
-            throw new Error("'id' já existe")
+            throw new BadRequestError("'id' já existe")
         }
 
         if (!userIdExists) {
             // res.status(400)
-            throw new Error("'creator' não existe, faça login para postar")
+            throw new NotFoundError("'creator' não existe, faça login para postar")
         }
 
         const post = new Posts(
@@ -106,7 +108,7 @@ export class PostBusiness {
         if(newContent !== undefined) {
             if(typeof newContent !== "string") {
                 // res.statusCode = (400)
-                throw new Error("'content' deve ser do tipo string")
+                throw new BadRequestError("'content' deve ser do tipo string")
             }
         }
 
@@ -115,7 +117,7 @@ export class PostBusiness {
 
             if(!postDB) {
                 // res.status(400)
-                throw new Error ("'post' não encontrado")
+                throw new NotFoundError("'post' não encontrado")
             }
 
             if(postDB) {
@@ -153,7 +155,7 @@ export class PostBusiness {
             await postDatabase.deletePost(id)
         } else {
             // res.status(404)
-            throw new Error("'id' do post não existe")
+            throw new NotFoundError("'id' do post não existe")
         }
 
         const output = {
