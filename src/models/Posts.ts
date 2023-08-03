@@ -1,20 +1,27 @@
+import { PostDB, PostModel } from "../types"
+
 export class Posts {
     constructor(
         private id: string,
-        private creator: string,
         private content: string,
         private likes: number,
         private dislikes: number,
         private createdAt: string,
         private updatedAt: string,
-    ){}
+        private creatorId: string,
+        private creatorName: string
+    ) { }
 
     public getId(): string {
         return this.id
     }
 
     public getCreatorId(): string {
-        return this.creator
+        return this.creatorId
+    }
+
+    public getCreatorName(): string {
+        return this.creatorName
     }
 
     public getContent(): string {
@@ -42,7 +49,11 @@ export class Posts {
     }
 
     public setCreatorId(value: string): void {
-        this.creator = value
+        this.creatorId = value
+    }
+
+    public setCreatorName(value: string): void {
+        this.creatorName = value
     }
 
     public setContent(value: string): void {
@@ -63,5 +74,32 @@ export class Posts {
 
     public setUpdatedAt(value: string): void {
         this.updatedAt = value
+    }
+
+    public toPostDB(): PostDB {
+        return {
+            id: this.id,
+            creator_id: this.creatorId,
+            content: this.content,
+            likes: this.likes,
+            dislikes: this.dislikes,
+            created_at: this.createdAt,
+            updated_at: this.updatedAt,
+        }
+    }
+
+    public toPostModel(): PostModel {
+        return {
+            id: this.id,
+            content: this.content,
+            likes: this.likes,
+            dislikes: this.dislikes,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            creator: {
+                id: this.creatorId,
+                name: this.creatorName
+            }
+        }
     }
 }

@@ -22,3 +22,16 @@ export interface LikesDislikesDB {
     post_id: string,
     like: number
 }
+
+export interface PostModel {
+    id: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    createdAt: string,
+    updatedAt: string,
+    creator: {
+        id: string,
+        name: string
+    }
+}
