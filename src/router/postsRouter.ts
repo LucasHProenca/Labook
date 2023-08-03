@@ -2,12 +2,14 @@ import express from "express"
 import { PostBusiness } from "../business/PostBusiness"
 import { PostController } from "../controller/PostsController"
 import { PostDatabase } from "../database/PostsDatabase"
+import { UserDatabase } from "../database/UsersDatabase"
 
 export const postRouter = express.Router()
 
 const postController = new PostController(
     new PostBusiness(
-        new PostDatabase()
+        new PostDatabase(),
+        new UserDatabase()
     )
 )
 

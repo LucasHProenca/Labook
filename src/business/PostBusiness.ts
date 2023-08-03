@@ -7,51 +7,66 @@ import { GetPostInputDTO, GetPostOutputDTO } from "../dtos/getPost.dto"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Posts } from "../models/Posts"
-import { PostDB } from "../types"
+import { PostDB, PostModel } from "../types"
 
 export class PostBusiness {
     constructor(
-        private postDatabase: PostDatabase
+        private postDatabase: PostDatabase,
+        private userDatabase: UserDatabase
     ) { }
-    public getPosts = async (input: GetPostInputDTO): Promise<GetPostOutputDTO[]> => {
+    public getPosts = async (input: GetPostInputDTO): Promise<GetPostOutputDTO> => {
         const { q } = input
+
+        const postsModel: PostModel[] = []
 
         const postsDB = await this.postDatabase.findPosts(q)
 
         //Tem que arrumar a estrutura pra ficar igual ao que é esperado, busca pelo id funciona só pelo q?=
-        const posts = postsDB.map((postDB) => {
-            return new Posts(
+        for (let postDB of postsDB) {
+
+            const userIdExists = await this.userDatabase.findUserById(postDB.creator_id)
+
+            if(!userIdExists) {
+                throw new BadRequestError("Vídeo com criador não identificado")
+            }
+            const post =  new Posts(
                 postDB.id,
-                postDB.creator_id,
                 postDB.content,
                 postDB.likes,
                 postDB.dislikes,
                 postDB.created_at,
-                postDB.updated_at
+                postDB.updated_at,
+                postDB.creator_id,
+                userIdExists.name
             )
-        })
 
-        const output: GetPostOutputDTO[] = posts.map(post => ({
-            id: post.getId(),
-            content: post.getContent(),
-            likes: post.getLikes(),
-            dislikes: post.getDislikes(),
-            created_at: post.getCreatedAt(),
-            updated_at: post.getUpdatedAt(),
-            creator: {
-                creator_id: post.getCreatorId(),
-            }
-        }))
+            postsModel.push(post.toPostModel())
+        }
+          
+
+        // const output: GetPostOutputDTO[] = posts.map(post => ({
+        //     id: post.getId(),
+        //     content: post.getContent(),
+        //     likes: post.getLikes(),
+        //     dislikes: post.getDislikes(),
+        //     created_at: post.getCreatedAt(),
+        //     updated_at: post.getUpdatedAt(),
+        //     creator: {
+        //         creator_id: post.getCreatorId(),
+        //     }
+        // }))
+
+        const output: GetPostOutputDTO = postsModel
 
         return output
     }
 
     public createPost = async (input: CreatePostInputDTO): Promise<CreatePostOutputDTO> => {
-        const { id, creator_id, content, likes, dislikes } = input
+        const { id, creator_id, content} = input
 
         const postIdExists = await this.postDatabase.findPost(id)
-        const userDatabase = new UserDatabase()
-        const userIdExists = await userDatabase.findUserById(creator_id)
+        
+        const userIdExists = await this.userDatabase.findUserById(creator_id)
 
         if (postIdExists) {
             throw new BadRequestError("'id' já existe")
@@ -63,25 +78,26 @@ export class PostBusiness {
 
         const post = new Posts(
             id,
-            creator_id,
             content,
-            likes,
-            dislikes,
+            0,
+            0,
             new Date().toISOString(),
-            new Date().toISOString()
+            new Date().toISOString(),
+            creator_id,
+            userIdExists.name
         )
 
-        const newPost: PostDB = {
-            id: post.getId(),
-            creator_id: post.getCreatorId(),
-            content: post.getContent(),
-            likes: post.getLikes(),
-            dislikes: post.getDislikes(),
-            created_at: post.getCreatedAt(),
-            updated_at: post.getUpdatedAt()
-        }
+        // const newPost: PostDB = {
+        //     id: post.getId(),
+        //     creator_id: post.getCreatorId(),
+        //     content: post.getContent(),
+        //     likes: post.getLikes(),
+        //     dislikes: post.getDislikes(),
+        //     created_at: post.getCreatedAt(),
+        //     updated_at: post.getUpdatedAt()
+        // }
 
-        await this.postDatabase.insertPost(newPost)
+        await this.postDatabase.insertPost(post.toPostDB())
 
         const output: CreatePostOutputDTO = {
             message: "Post criado com sucesso"
@@ -101,13 +117,18 @@ export class PostBusiness {
         }
 
         const postDB = await this.postDatabase.findPost(id)
+        
 
         if (!postDB) {
             throw new NotFoundError("'post' não encontrado")
         }
+        const userIdExists = await this.userDatabase.findUserById(postDB.creator_id)
 
-        const post = new Posts(
-            postDB.id, postDB.creator_id, postDB.content, postDB.likes, postDB.dislikes, postDB.created_at, postDB.updated_at
+        if(!userIdExists) {
+            throw new BadRequestError("Vídeo com criador não identificado")
+        }
+        const post =  new Posts(
+            postDB.id, postDB.content, postDB.likes, postDB.dislikes, postDB.created_at, postDB.updated_at, postDB.creator_id, userIdExists.name
         )
 
         id && post.setId(id)

@@ -29,4 +29,6 @@ export class LikesDislikes {
     public setLike(value: number): void {
         this.like = value
     }
+
+    // pode deletar isso dps
 }

@@ -4,8 +4,6 @@ export interface CreatePostInputDTO {
     id: string,
     creator_id: string,
     content: string,
-    likes: number,
-    dislikes: number
 }
 
 export interface CreatePostOutputDTO {
@@ -15,7 +13,5 @@ export interface CreatePostOutputDTO {
 export const CreatePostSchema = z.object ({
     id: z.string(),
     creator_id: z.string(),
-    content: z.string(),
-    likes: z.number(),
-    dislikes: z.number()
+    content: z.string()
 }).transform(data => data as CreatePostInputDTO)

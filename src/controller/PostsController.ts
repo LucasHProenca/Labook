@@ -50,9 +50,9 @@ export class PostController {
             })
 
             
-            const posts = await this.postBusiness.createPost(input)
+            const output = await this.postBusiness.createPost(input)
 
-            res.status(201).send( posts )
+            res.status(201).send(output)
         } catch (error) {
             console.log(error)
 
