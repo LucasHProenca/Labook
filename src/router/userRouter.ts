@@ -12,5 +12,5 @@ const userController = new UsersController(
 )
 
 userRouter.post("/signup", userController.userSignUp)
-// userRouter.post("/login", userController.userLogin) FAZER DPS
+userRouter.post("/login", userController.login)
 
