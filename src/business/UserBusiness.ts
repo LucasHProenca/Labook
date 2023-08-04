@@ -1,6 +1,8 @@
 import { UserDatabase } from "../database/UsersDatabase"
+import { LoginInputDTO, LoginOutputDTO } from "../dtos/userLogin.dto"
 import { UserSignupInputDTO, UserSignupOutputDTO } from "../dtos/userSignup.dto"
 import { BadRequestError } from "../errors/BadRequestError"
+import { NotFoundError } from "../errors/NotFoundError"
 import { Users } from "../models/Users"
 import { UserDB } from "../types"
 
@@ -49,11 +51,28 @@ export class UserBusiness {
             return output
     }
 
-    public userLogin = async (input:any) => {
-        
-    }
+    public login = async (
+        input: LoginInputDTO
+      ): Promise<LoginOutputDTO> => {
+        const { email, password } = input
+    
+        const userDB = await this.userDatabase.findUserByEmail(email)
+    
+        if (!userDB) {
+          throw new NotFoundError("'email' não encontrado")
+        }
+    
+        if (password !== userDB.password) {
+          throw new BadRequestError("'email' ou 'password' incorretos")
+        }
+    
+        const output: LoginOutputDTO = {
+          message: "Login realizado com sucesso",
+          token: "token"
+        }
+    
+        return output
+      }
 
     // Fazer o login dps
-
-
 }
