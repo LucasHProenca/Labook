@@ -16,11 +16,9 @@ export class UsersController {
         try {
 
             const input = UserSignupSchema.parse({
-                id: req.body.id,
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password,
-                role: req.body.role
+                password: req.body.password
             })
 
             

@@ -1,7 +1,8 @@
 import z from "zod"
 
 export interface DeletePostInputDTO {
-    id: string
+    id: string,
+    token: string
 }
 
 export interface DeletePostOutputDTO {
@@ -9,5 +10,6 @@ export interface DeletePostOutputDTO {
 }
 
 export const DeleteCourseSchema = z.object({
-    id: z.string()
+    id: z.string(),
+    token: z.string().min(1)
 }).transform(data => data as DeletePostInputDTO)
