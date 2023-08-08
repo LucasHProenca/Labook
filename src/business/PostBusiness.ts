@@ -8,15 +8,31 @@ import { PutLikePostInputDTO, PutLikePostOutputDTO } from "../dtos/putLikePost.d
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Posts } from "../models/Posts"
-import { PostDB, PostModel } from "../types"
+import { PostDB, PostModel, USER_ROLES } from "../types"
+import { IdGenerator } from "../services/idGenerator"
+import { TokenManager } from "../services/TokenManager"
+import { UnauthorizedError } from "../errors/UnauthorizedError"
+import { ForbiddenError } from "../errors/ForbiddenError"
 
 export class PostBusiness {
     constructor(
         private postDatabase: PostDatabase,
-        private userDatabase: UserDatabase
+        private userDatabase: UserDatabase,
+        private tokenManager: TokenManager,
+        private idGenerator: IdGenerator
     ) { }
     public getPosts = async (input: GetPostInputDTO): Promise<GetPostOutputDTO> => {
-        const { q } = input
+        const { q, token } = input
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("Token inválido")
+        }
+
+        // if(payload.role !== USER_ROLES.ADMIN) {
+        //     throw new BadRequestError("Somente admins podem acessar esse recurso")
+        // }
 
         const postsModel: PostModel[] = []
 
@@ -27,10 +43,10 @@ export class PostBusiness {
 
             const userIdExists = await this.userDatabase.findUserById(postDB.creator_id)
 
-            if(!userIdExists) {
+            if (!userIdExists) {
                 throw new BadRequestError("Vídeo com criador não identificado")
             }
-            const post =  new Posts(
+            const post = new Posts(
                 postDB.id,
                 postDB.content,
                 postDB.likes,
@@ -43,7 +59,7 @@ export class PostBusiness {
 
             postsModel.push(post.toPostModel())
         }
-          
+
 
         // const output: GetPostOutputDTO[] = posts.map(post => ({
         //     id: post.getId(),
@@ -63,18 +79,20 @@ export class PostBusiness {
     }
 
     public createPost = async (input: CreatePostInputDTO): Promise<CreatePostOutputDTO> => {
-        const { id, creator_id, content} = input
+        const { content, token } = input
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (!payload) {
+            throw new UnauthorizedError()
+        }
+
+        const id = this.idGenerator.generate()
 
         const postIdExists = await this.postDatabase.findPost(id)
-        
-        const userIdExists = await this.userDatabase.findUserById(creator_id)
 
         if (postIdExists) {
             throw new BadRequestError("'id' já existe")
-        }
-
-        if (!userIdExists) {
-            throw new NotFoundError("'creator' não existe, faça login para postar")
         }
 
         const post = new Posts(
@@ -84,8 +102,8 @@ export class PostBusiness {
             0,
             new Date().toISOString(),
             new Date().toISOString(),
-            creator_id,
-            userIdExists.name
+            payload.id,
+            payload.name
         )
 
         // const newPost: PostDB = {
@@ -109,7 +127,13 @@ export class PostBusiness {
 
     public editPost = async (input: EditPostInputDTO): Promise<EditPostOutputDTO> => {
 
-        const { id, content } = input
+        const { id, content, token } = input
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (!payload) {
+            throw new UnauthorizedError()
+        }
 
         if (content !== undefined) {
             if (typeof content !== "string") {
@@ -118,21 +142,18 @@ export class PostBusiness {
         }
 
         const postDB = await this.postDatabase.findPost(id)
-        
 
         if (!postDB) {
             throw new NotFoundError("'post' não encontrado")
         }
-        const userIdExists = await this.userDatabase.findUserById(postDB.creator_id)
 
-        if(!userIdExists) {
-            throw new BadRequestError("Vídeo com criador não identificado")
+        if (payload.id !== postDB.creator_id) {
+            throw new ForbiddenError("Somente quem criou o post pode editá-lo")
         }
-        const post =  new Posts(
-            postDB.id, postDB.content, postDB.likes, postDB.dislikes, postDB.created_at, postDB.updated_at, postDB.creator_id, userIdExists.name
+        const post = new Posts(
+            postDB.id, postDB.content, postDB.likes, postDB.dislikes, postDB.created_at, postDB.updated_at, postDB.creator_id, payload.name
         )
 
-        id && post.setId(id)
         content && post.setContent(content)
         post.setUpdatedAt(new Date().toISOString())
 
@@ -180,16 +201,27 @@ export class PostBusiness {
     }
 
     public deletePosts = async (input: DeletePostInputDTO): Promise<DeletePostOutputDTO> => {
-        const { id } = input
+        const { id, token } = input
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (!payload) {
+            throw new UnauthorizedError()
+        }
 
         const postExists = await this.postDatabase.findPost(id)
 
-        if (postExists) {
-            await this.postDatabase.deletePost(id)
-        } else {
-            // res.status(404)
+        if (!postExists) {
             throw new NotFoundError("'id' do post não existe")
         }
+
+        if (payload.role !== USER_ROLES.ADMIN) {
+            if (payload.id !== postExists?.creator_id) {
+                throw new ForbiddenError("Somente quem criou o post pode editá-lo")
+            }
+        }
+        await this.postDatabase.deletePost(id)
+
 
         const output: DeletePostOutputDTO = {
             message: "Post apagado com sucesso"
@@ -198,7 +230,7 @@ export class PostBusiness {
         return output
     }
 
-    public likeDislikePost = async (input: PutLikePostInputDTO): Promise <PutLikePostOutputDTO> => {
+    public likeDislikePost = async (input: PutLikePostInputDTO): Promise<PutLikePostOutputDTO> => {
         const { post_id, like } = input
 
         if (like !== undefined) {
@@ -208,23 +240,23 @@ export class PostBusiness {
         }
 
         const postDB = await this.postDatabase.findPost(post_id)
-        
+
 
         if (!postDB) {
             throw new NotFoundError("'post' não encontrado")
         }
         const userIdExists = await this.userDatabase.findUserById(postDB.creator_id)
 
-        if(!userIdExists) {
+        if (!userIdExists) {
             throw new BadRequestError("Vídeo com criador não identificado")
         }
-        const post =  new Posts(
+        const post = new Posts(
             postDB.id, postDB.content, postDB.likes, postDB.dislikes, postDB.created_at, postDB.updated_at, postDB.creator_id, userIdExists.id
         )
 
         let likes = post.getLikes()
 
-        if(like) {
+        if (like) {
             likes += 1
         } else {
             likes -= 1

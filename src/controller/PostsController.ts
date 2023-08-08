@@ -20,7 +20,8 @@ export class PostController {
         try {
 
             const input = GetPostSchema.parse({
-                q: req.query.q
+                q: req.query.q,
+                token: req.headers.authorization
             })
             
             const posts = await this.postBusiness.getPosts(input)
@@ -43,11 +44,8 @@ export class PostController {
         try {
 
             const input = CreatePostSchema.parse({
-                id: req.body.id,
-                creator_id: req.body.creator_id,
                 content: req.body.content,
-                likes: req.body.likes,
-                dislikes: req.body.dislikes
+                token: req.headers.authorization
             })
 
             
@@ -72,7 +70,8 @@ export class PostController {
 
             const input = EditPostSchema.parse({
                 id: req.params.id,
-                content: req.body.content
+                content: req.body.content,
+                token: req.headers.authorization
             })
 
             const post = await this.postBusiness.editPost(input)
@@ -95,7 +94,8 @@ export class PostController {
         try {
 
             const input = DeleteCourseSchema.parse({
-                id: req.params.id
+                id: req.params.id,
+                token: req.headers.authorization
             })
 
             const post = await this.postBusiness.deletePosts(input)

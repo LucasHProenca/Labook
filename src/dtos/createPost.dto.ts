@@ -1,9 +1,8 @@
 import z from "zod"
 
 export interface CreatePostInputDTO {
-    id: string,
-    creator_id: string,
     content: string,
+    token: string
 }
 
 export interface CreatePostOutputDTO {
@@ -11,7 +10,6 @@ export interface CreatePostOutputDTO {
 }
 
 export const CreatePostSchema = z.object ({
-    id: z.string(),
-    creator_id: z.string(),
-    content: z.string()
+    content: z.string().min(1),
+    token: z.string().min(1)
 }).transform(data => data as CreatePostInputDTO)
