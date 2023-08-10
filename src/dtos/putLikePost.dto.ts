@@ -6,9 +6,7 @@ export interface PutLikePostInputDTO {
     like: boolean
 }
 
-export interface PutLikePostOutputDTO {
-    message: string
-}
+export type PutLikePostOutputDTO = undefined
 
 export const PutLikePostSchema = z.object({
     post_id: z.string().min(1),

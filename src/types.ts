@@ -1,7 +1,7 @@
 export enum USER_ROLES {
     NORMAL = "NORMAL",
     ADMIN = "ADMIN"
-  }
+}
 
 export enum POST_LIKE {
     ALREADY_LIKED = "ALREADY LIKED",
@@ -46,6 +46,14 @@ export interface PostModel {
     }
 }
 
+export interface UserModel {
+    id: string,
+    name: string,
+    email: string,
+    role: USER_ROLES,
+    createdAt: string
+}
+
 export interface PostDBWithCreatorName {
     id: string,
     creator_id: string,
@@ -55,4 +63,4 @@ export interface PostDBWithCreatorName {
     created_at: string,
     updated_at: string,
     creator_name: string
-  }
+}

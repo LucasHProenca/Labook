@@ -5,11 +5,9 @@ export interface DeletePostInputDTO {
     token: string
 }
 
-export interface DeletePostOutputDTO {
-    message: string
-}
+export type DeletePostOutputDTO = undefined
 
-export const DeleteCourseSchema = z.object({
+export const DeletePostSchema = z.object({
     id: z.string(),
     token: z.string().min(1)
 }).transform(data => data as DeletePostInputDTO)

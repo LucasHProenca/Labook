@@ -6,9 +6,7 @@ export interface EditPostInputDTO {
     token: string
 }
 
-export interface EditPostOutputDTO {
-    message: string
-}
+export type EditPostOutputDTO = undefined
 
 export const EditPostSchema = z.object({
     id: z.string(),
