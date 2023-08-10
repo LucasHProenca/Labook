@@ -36,9 +36,7 @@ CREATE TABLE likes_dislikes(
 
 INSERT INTO users (id, name, email, password, role)
 VALUES
-("u001", "Fulano", "fulano@email.com", "fulano123", "NORMAL"),
-("u002", "Beltrana", "beltrana@email.com", "beltrana00", "NORMAL"),
-("u003", "astrodev", "astrodev@email.com", "astrodev99", "ADMIN");
+("u001", "astrodev", "astrodev@email.com", "astrodev99", "ADMIN");
 
 SELECT * FROM users;
 
@@ -58,5 +56,5 @@ VALUES
 
 SELECT * FROM likes_dislikes;
 
-DROP TABLE posts;
+DROP TABLE users;
 

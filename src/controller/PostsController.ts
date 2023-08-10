@@ -119,7 +119,8 @@ export class PostController {
             
             const input = PutLikePostSchema.parse({
                 post_id: req.params.id,
-                content: req.body.content
+                token: req.headers.authorization,
+                like: req.body.like
             })
     
             const post = await this.postBusiness.likeDislikePost(input)

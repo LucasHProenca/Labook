@@ -3,7 +3,7 @@ import { PostBusiness } from "../business/PostBusiness"
 import { PostController } from "../controller/PostsController"
 import { PostDatabase } from "../database/PostsDatabase"
 import { UserDatabase } from "../database/UsersDatabase"
-import { IdGenerator } from "../services/idGenerator"
+import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
 
 export const postRouter = express.Router()
