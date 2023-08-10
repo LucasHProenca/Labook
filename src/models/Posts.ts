@@ -64,6 +64,22 @@ export class Posts {
         this.likes = value
     }
 
+    public addLike = (): void => {
+        this.likes++
+    }
+
+    public removeLike = (): void => {
+        this.likes--
+    }
+
+    public addDislike = (): void => {
+        this.dislikes++
+    }
+
+    public removeDislike = (): void => {
+        this.dislikes--
+    }
+
     public setDislkes(value: number): void {
         this.dislikes = value
     }

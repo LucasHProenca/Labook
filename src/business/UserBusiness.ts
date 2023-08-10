@@ -4,7 +4,8 @@ import { UserSignupInputDTO, UserSignupOutputDTO } from "../dtos/userSignup.dto"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Users } from "../models/Users"
-import { IdGenerator } from "../services/idGenerator"
+import { HashManager } from "../services/HashManager"
+import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager, TokenPayload } from "../services/TokenManager"
 import { UserDB, USER_ROLES } from "../types"
 
@@ -12,7 +13,8 @@ export class UserBusiness {
   constructor(
     private userDatabase: UserDatabase,
     private idGenerator: IdGenerator,
-    private tokenManager: TokenManager
+    private tokenManager: TokenManager,
+    private hashManager: HashManager
   ) { }
   public userSignUp = async (input: UserSignupInputDTO): Promise<UserSignupOutputDTO> => {
     const { name, email, password, } = input
@@ -21,6 +23,8 @@ export class UserBusiness {
 
     const userDBExists = await this.userDatabase.findUserByEmail(email)
     const userDBIdExists = await this.userDatabase.findUserById(id)
+
+    const hashedPassword = await this.hashManager.hash(password)
 
     if (userDBIdExists) {
       throw new BadRequestError("'id' já cadastrado")
@@ -34,7 +38,7 @@ export class UserBusiness {
       id,
       name,
       email,
-      password,
+      hashedPassword,
       USER_ROLES.NORMAL,
       new Date().toISOString()
     )
@@ -76,7 +80,11 @@ export class UserBusiness {
       throw new NotFoundError("'email' não encontrado")
     }
 
-    if (password !== userDB.password) {
+    const hashedPassword = userDB.password
+
+    const isPasswordCorrect = await this.hashManager.compare(password, hashedPassword)
+
+    if (!isPasswordCorrect) {
       throw new BadRequestError("'email' ou 'password' incorretos")
     }
 
