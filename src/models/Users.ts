@@ -1,4 +1,4 @@
-import { USER_ROLES } from "../types"
+import { UserModel, USER_ROLES } from "../types"
 
 export class Users {
     constructor(
@@ -8,7 +8,7 @@ export class Users {
         private password: string,
         private role: USER_ROLES,
         private createdAt: string,
-    ){}
+    ) { }
 
     public getId(): string {
         return this.id
@@ -56,5 +56,15 @@ export class Users {
 
     public setCreatedAt(value: string): void {
         this.createdAt = value
+    }
+
+    public toUserModel(): UserModel {
+        return {
+            id: this.id,
+            name: this.name,
+            email: this.email,
+            role: this.role,
+            createdAt: this.createdAt
+        }
     }
 }

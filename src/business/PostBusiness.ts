@@ -30,16 +30,9 @@ export class PostBusiness {
         if (payload === null) {
             throw new BadRequestError("Token inválido")
         }
-
-        // if(payload.role !== USER_ROLES.ADMIN) {
-        //     throw new BadRequestError("Somente admins podem acessar esse recurso")
-        // }
-
         const postsModel: PostModel[] = []
-
         const postsDB = await this.postDatabase.findPosts(q)
 
-        //Tem que arrumar a estrutura pra ficar igual ao que é esperado, busca pelo id funciona só pelo q?=
         for (let postDB of postsDB) {
 
             const userIdExists = await this.userDatabase.findUserById(postDB.creator_id)
@@ -60,20 +53,6 @@ export class PostBusiness {
 
             postsModel.push(post.toPostModel())
         }
-
-
-        // const output: GetPostOutputDTO[] = posts.map(post => ({
-        //     id: post.getId(),
-        //     content: post.getContent(),
-        //     likes: post.getLikes(),
-        //     dislikes: post.getDislikes(),
-        //     created_at: post.getCreatedAt(),
-        //     updated_at: post.getUpdatedAt(),
-        //     creator: {
-        //         creator_id: post.getCreatorId(),
-        //     }
-        // }))
-
         const output: GetPostOutputDTO = postsModel
 
         return output
@@ -106,22 +85,9 @@ export class PostBusiness {
             payload.id,
             payload.name
         )
-
-        // const newPost: PostDB = {
-        //     id: post.getId(),
-        //     creator_id: post.getCreatorId(),
-        //     content: post.getContent(),
-        //     likes: post.getLikes(),
-        //     dislikes: post.getDislikes(),
-        //     created_at: post.getCreatedAt(),
-        //     updated_at: post.getUpdatedAt()
-        // }
-
         await this.postDatabase.insertPost(post.toPostDB())
 
-        const output: CreatePostOutputDTO = {
-            message: "Post criado com sucesso"
-        }
+        const output: CreatePostOutputDTO = undefined
 
         return output
     }
@@ -170,9 +136,7 @@ export class PostBusiness {
 
         await this.postDatabase.updatePost(postEdited)
 
-        const output: EditPostOutputDTO = {
-            message: "Post atualizado com sucesso"
-        }
+        const output: EditPostOutputDTO = undefined
 
         return output
     }
@@ -193,16 +157,14 @@ export class PostBusiness {
         }
 
         if (payload.role !== USER_ROLES.ADMIN) {
-            if (payload.id !== postExists?.creator_id) {
-                throw new ForbiddenError("Somente quem criou o post pode editá-lo")
+            if (payload.id !== postExists.creator_id) {
+                throw new ForbiddenError("Somente admins e o dono do post podem deleta-lo")
             }
         }
         await this.postDatabase.deletePost(id)
 
 
-        const output: DeletePostOutputDTO = {
-            message: "Post apagado com sucesso"
-        }
+        const output: DeletePostOutputDTO = undefined
 
         return output
     }
@@ -279,54 +241,8 @@ export class PostBusiness {
         const updatedPostDB = post.toPostDB()
         await this.postDatabase.updatePost(updatedPostDB)
 
-        const output: PutLikePostOutputDTO = {
-            message: "Post atualizado com sucesso"
-        }
+        const output: PutLikePostOutputDTO = undefined
 
         return output
-
-        // let likes = post.getLikes()
-        // let dislikes = post.getDislikes()
-
-
-        // if (like) {
-        //     if (like) {
-        //         likes -= 1
-        //     } else {
-        //         likes -= 1
-        //         dislikes += 1
-        //     }
-        //     likes += 1
-        // } else if (!like) {
-        //     if (!like) {
-        //         dislikes -= 1
-        //     } else {
-        //         dislikes -= 1
-        //         likes += 1
-        //     }
-        //     dislikes += 1
-        // }
-
-
-        // like && post.setLikes(likes)
-        // post.setDislkes(dislikes)
-
-        // const postEdited: PostDB = {
-        //     id: post.getId(),
-        //     creator_id: post.getCreatorId(),
-        //     content: post.getContent(),
-        //     likes: post.getLikes(),
-        //     dislikes: post.getDislikes(),
-        //     created_at: post.getCreatedAt(),
-        //     updated_at: post.getUpdatedAt()
-        // }
-
-        // await this.postDatabase.updatePost(postEdited)
-
-        // const output: EditPostOutputDTO = {
-        //     message: "Post atualizado com sucesso"
-        // }
-
-        // return output
     }
 }
