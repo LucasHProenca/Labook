@@ -22,17 +22,16 @@ Esse bootcamp é uma experiência online é um programa com mais de 1000 horas d
 
 ## ⚙️ Funcionalidades
 
-- [x] Empresas ou empreendedores individuais podem cadastrar seus produtos e compradores na API utilizando todas as requisições que temos a oferecer:
-  - [x] getAllUsers
-  - [x] getAllProducts
-  - [x] createUser
-  - [x] createProduct  
-  - [x] deleteUserById
-  - [x] deleteProductById
-  - [x] editProductById
-  - [x] createPurchase
-  - [x] getPurchaseById
-  - [x] deletePurchaseById
+  - [x] getUsers
+  - [x] signUp
+  - [x] login
+  - [x] editUser  
+  - [x] deleteUser
+  - [x] getPosts
+  - [x] createPost
+  - [x] editPost
+  - [x] likeOrDislikePost
+  - [x] deletePost
 
 ---
 
