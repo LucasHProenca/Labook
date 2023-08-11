@@ -126,7 +126,7 @@ export class UserBusiness {
       throw new BadRequestError("Token inválido")
     }
 
-    if(payload.role !== USER_ROLES.ADMIN) {
+    if (payload.role !== USER_ROLES.ADMIN) {
       throw new ForbiddenError("Somente admins podem ter acesso aos usuários")
     }
     const usersModel: UserModel[] = []
@@ -157,52 +157,52 @@ export class UserBusiness {
     const payload = this.tokenManager.getPayload(token)
 
     if (!payload) {
-        throw new UnauthorizedError()
+      throw new UnauthorizedError()
     }
 
     if (name !== undefined) {
-        if (typeof name !== "string") {
-            throw new BadRequestError("'name' deve ser do tipo string")
-        }
+      if (typeof name !== "string") {
+        throw new BadRequestError("'name' deve ser do tipo string")
+      }
     }
 
     if (email !== undefined) {
       if (typeof email !== "string") {
-          throw new BadRequestError("'email' deve ser do tipo string")
+        throw new BadRequestError("'email' deve ser do tipo string")
       }
-  }
-
-  if (password !== undefined) {
-    if (typeof password !== "string") {
-        throw new BadRequestError("'password' deve ser do tipo string")
     }
-}
+
+    if (password !== undefined) {
+      if (typeof password !== "string") {
+        throw new BadRequestError("'password' deve ser do tipo string")
+      }
+    }
 
     const userDB = await this.userDatabase.findUserById(id)
 
     if (!userDB) {
-        throw new NotFoundError("'user' não encontrado")
+      throw new NotFoundError("'user' não encontrado")
     }
 
     if (payload.id !== userDB.id) {
-        throw new ForbiddenError("Somente o dono da conta pode edita-la")
+      throw new ForbiddenError("Somente o dono da conta pode edita-la")
     }
     const user = new Users(
-        userDB.id, userDB.name, userDB.email, userDB.password, userDB.role, userDB.created_at
+      userDB.id, userDB.name, userDB.email, userDB.password, userDB.role, userDB.created_at
     )
 
     name && user.setName(name)
     email && user.setEmail(email)
     password && user.setPassword(password)
-    
+
 
     const userEdited: UserDB = {
-        id: user.getId(),
-        name: user.getName(),
-        email: user.getEmail(),
-        password: user.getPassword(),
-        role: user.getRole(),
-        created_at: user.getCreatedAt(),
+      id: user.getId(),
+      name: user.getName(),
+      email: user.getEmail(),
+      password: user.getPassword(),
+      role: user.getRole(),
+      created_at: user.getCreatedAt(),
     }
 
     await this.userDatabase.updateUser(userEdited)
@@ -210,34 +210,34 @@ export class UserBusiness {
     const output: EditUserOutputDTO = undefined
 
     return output
-}
+  }
 
-public deleteUser = async (input: DeleteUserInputDTO): Promise<DeleteUserOutputDTO> => {
-  const { id, token } = input
+  public deleteUser = async (input: DeleteUserInputDTO): Promise<DeleteUserOutputDTO> => {
+    const { id, token } = input
 
-  const payload = this.tokenManager.getPayload(token)
+    const payload = this.tokenManager.getPayload(token)
 
-  if (!payload) {
+    if (!payload) {
       throw new UnauthorizedError()
-  }
+    }
 
-  const userIdExists = await this.userDatabase.findUserById(id)
+    const userIdExists = await this.userDatabase.findUserById(id)
 
-  if (!userIdExists) {
+    if (!userIdExists) {
       throw new NotFoundError("'id' do usuário não existe")
-  }
+    }
 
-  if (payload.role !== USER_ROLES.ADMIN) {
+    if (payload.role !== USER_ROLES.ADMIN) {
       if (payload.id !== userIdExists.id) {
-          throw new ForbiddenError("Somente admins e o dono da conta podem deleta-la")
+        throw new ForbiddenError("Somente admins e o dono da conta podem deleta-la")
       }
+    }
+    await this.userDatabase.deleteUser(id)
+
+
+    const output: DeleteUserOutputDTO = undefined
+
+    return output
   }
-  await this.userDatabase.deleteUser(id)
-
-
-  const output: DeleteUserOutputDTO = undefined
-
-  return output
-}
 
 }
