@@ -113,11 +113,17 @@ Para criar as tabelas, basta clicar em "execute" em cada um dos três como mostr
 
 ![image](https://github.com/LucasHProenca/Labook/assets/106993403/d6417113-21de-4a81-81ca-3eb98861eed7)
 
+### 💾 Configurando o .env
+
+Lembre-se de configurar o arquivo .env como está feito no exemplo em .env.example
+
+![image](https://github.com/LucasHProenca/Labook/assets/106993403/d831941b-7f6a-45b1-ac00-2e82aec1b36c)
+
 Feito isso acesse a documentação da [API](https://documenter.getpostman.com/view/27682612/2s9Xy3trjx#abcf8822-c648-44df-901d-cbed6482d1e4) e clique em "Run in Postman" localizado no canto superior direito para abrir dentro do app.
 
 ### Requisições
 
-#### ATENÇÃO! Todos os exemplos são fictícios, pois não haveria sentido em disponibilizarmos os dados de nossos clientes, portanto use essa API para construir a sua própria loja online.
+#### ATENÇÃO! Todos os exemplos são fictícios, pois não haveria sentido em disponibilizarmos os dados de nossos usuários, portanto use essa API para construir a sua própria rede social.
 
 #### getAllUsers
 A requisição getAllUsers tem duas funcionalidades diferentes:
