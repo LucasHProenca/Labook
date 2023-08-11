@@ -5,7 +5,7 @@
 <p align="center">
  <a href="#-sobre-o-projeto">Sobre</a> •
  <a href="#-funcionalidades">Funcionalidades</a> •
- <a href="#-como-executar-a-api">Como executar</a> • 
+ <a href="#-como-executar">Como executar</a> • 
  <a href="#-tecnologias">Tecnologias</a> • 
  <a href="#-autor">Autor</a> • 
 </p>
@@ -35,7 +35,7 @@ Esse bootcamp é uma experiência online é um programa com mais de 1000 horas d
 
 ---
 
-## 🚀 Como executar a api
+## 🚀 Como executar
 
 ### Pré-requisitos
 
@@ -66,7 +66,54 @@ $ npm run dev
 
 ```
 
-Feito isso acesse a documentação da [API](https://documenter.getpostman.com/view/27682612/2s93zFWJwG) e clique em "Run in Postman" localizado no canto superior direito para abrir dentro do app.
+### 🗃 Configurando o banco de dados
+
+#### Extensão VSCode
+
+Para manipularmos manualmente código SQL será necessário instalar no VSCode a extensão chamada MySQL, criada por Weijan Chen. E sim, apesar do nome ser MySQL iremos aplicar o uso do SQLite. Essa extensão é utilizada para se conectar com diversos tipos de bancos relacionais, inclusive não relacionais. Caso a extensão não esteja instalada no seu projeto, é possível acessa-la por aqui:
+
+![image](https://github.com/LucasHProenca/Labook/assets/106993403/b7801296-501a-4abb-8b64-bb7afd964702)
+
+#### Acessando o menu da extensão 
+
+Se a extensão for instalada corretamente, aparecerá no menu de navegação lateral à esquerda o ícone de banco de dados (destacado com a seta laranja). Esse é o menu da extensão e é onde você irá se conectar com o arquivo labook.db.
+
+![image](https://github.com/LucasHProenca/Labook/assets/106993403/ff86ed0e-4a23-4fa1-bc47-6254e0b40c5c)
+
+#### Acessando o menu do SQLite
+
+Ao clicar no botão “**Create Connection**” é aberta a aba de conexão da extensão.
+Escolha o **Server Type** como sendo **SQLite** (indicado na seta laranja).
+
+![image](https://github.com/LucasHProenca/Labook/assets/106993403/ffd8323b-38cc-4538-83a2-b51868767b18)
+
+
+#### ATENÇÃO!
+
+Caso seja a primeira vez que você está instalando essa extensão, talvez seja necessário instalar algumas dependências para o SQLite rodar em sua máquina. A própria extensão irá te avisar se for o caso e você precisará clicar no botão para instalá-las.
+Se não aparecer nenhum aviso ou deu tudo certo, pode prosseguir!
+
+##### Criando a conexão
+
+1. Dê um nome para a conexão
+2. Selecione o arquivo: **labook.db**
+3. Salve a conexão
+
+![image](https://github.com/LucasHProenca/Labook/assets/106993403/b0be9d2a-a2c3-4ede-9ba8-6f437ef6cf76)
+
+#### Verificando se deu certo
+
+Caso tenha dado tudo certo, irá aparecer no menu do banco de dados o nome de sua conexão junto com algumas informações.
+
+![image](https://github.com/LucasHProenca/Labook/assets/106993403/f76ad74d-190a-4292-825d-40833f919b62)
+
+#### Inserindo as tabelas no banco de dados
+
+Para criar as tabelas, basta clicar em "execute" em cada um dos três como mostra a imagem abaixo:
+
+![image](https://github.com/LucasHProenca/Labook/assets/106993403/d6417113-21de-4a81-81ca-3eb98861eed7)
+
+Feito isso acesse a documentação da [API](https://documenter.getpostman.com/view/27682612/2s9Xy3trjx#abcf8822-c648-44df-901d-cbed6482d1e4) e clique em "Run in Postman" localizado no canto superior direito para abrir dentro do app.
 
 ### Requisições
 
