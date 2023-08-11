@@ -1,4 +1,4 @@
-<img align="center" src="https://github.com/LucasHProenca/Labook/assets/106993403/371a0ce8-fc92-4a84-bd9d-4f0c39bd19c5" width="100%;" alt="" />
+<img align="center" src="https://github.com/LucasHProenca/Labook/assets/106993403/2a90d4e0-9387-4d47-b774-99c6484c4302" width="100%;" alt="" />
 
 ---
 
