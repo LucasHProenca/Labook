@@ -267,6 +267,13 @@ As seguintes ferramentas foram usadas na construção do projeto:
 -   **[SQLite](https://github.com/mapbox/node-sqlite3)**
 -   **[Knex](https://knexjs.org/guide/query-builder.html)**
 -   **[ts-node](https://github.com/TypeStrong/ts-node)**
+-   **[POO](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_programming)**
+-   **[Arquitetura em camadas](https://guia.dev/pt/pillars/software-architecture/layers.html)**
+-   **[Geração de UUID](https://medium.com/trainingcenter/o-que-%C3%A9-uuid-porque-us%C3%A1-lo-ad7a66644a2b)**
+-   **[Geração de hashes](https://www.voitto.com.br/blog/artigo/o-que-e-hash-e-como-funciona)**
+-   **[Autenticação e autorização](https://auth0.com/blog/pt-complete-guide-to-nodejs-express-user-authentication/)**
+-   **[Roteamento](https://dev.to/aryclenio/configurando-rotas-no-nodejs-com-typescript-la1)**
+-   **[Postman](https://www.postman.com/)**
 
 ---
 
