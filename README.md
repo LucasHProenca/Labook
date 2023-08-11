@@ -125,89 +125,86 @@ Feito isso acesse a documentação da [API](https://documenter.getpostman.com/vi
 
 #### ATENÇÃO! Todos os exemplos são fictícios, pois não haveria sentido em disponibilizarmos os dados de nossos usuários, portanto utilize essa API para construir a sua própria rede social.
 
-#### getAllUsers
+#### getUsers
 A requisição getAllUsers tem duas funcionalidades diferentes:
+A requisição getUsers tem a funcionalidade de mostrar a lista de usuários cadastrados no banco de dados, no entanto, apenas "ADMINS" tem acesso a essa funcionalidade, passando um token de autorização compátivel.
 
-Caso nada seja escrito após "/users", será retornada a lista completa de usuários cadastrados, como podemos ver no exemplo "getAllUsersF1";
+![getUsersRequest](https://github.com/LucasHProenca/Labook/assets/106993403/eadecb90-6e5b-4b49-97d5-149ee141ae42)
 
-![getAllUsersF1Request](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/5424d632-891a-4d76-862c-4a27fae223c3)
-
-![getAllUsersF1Response](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/63d219a8-b2a8-405f-b005-3043c6e65b5a)
-
-Caso um usuário não cadastrado seja enviado como paramêtro, por exemplo, "/users?id=u010", será retornada uma lista vazia que é referenciada por [ ];
-Caso não seja inserido um "id" completo, será retornado todos os usuários que contenham os paramêtros inseridos;
-Caso um usuário cadastrado seja enviado como paramêtro, apenas ele será retornado, como podemos ver no exemplo "getAllUsersF2".
-
-![getAllUsersF2Request](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/e8d3b8cf-918d-49f6-a937-b0892360b25c)
-
-![getAllUsersF2Response](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/5e8859c4-1e98-4dac-9401-e1155e977167)
+![getUsersResponse](https://github.com/LucasHProenca/Labook/assets/106993403/dd887fc6-0792-419c-95c2-bcc95fd7ed9e)
 
 
-#### getAllProducts
-A requisição getAllProducts tem duas funcionalidades diferentes:
+#### signUp
+A requisição signUp tem a funcionalidade de cadastrar uma nova conta, porém alguns dados precisam ser inseridos no corpo da requisição, são esses:
 
-Caso nada seja escrito após "/products", será retornada a lista completa de produtos cadastrados, como podemos ver no exemplo "getAllProductsF1";
-
-![getAllProductsF1Request](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/b7c9ffc1-b7f0-42b8-bcc0-b7cfe95f097d)
-
-![getAllProductsF1Response](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/1e4b9f30-ef7a-4bc0-b5a6-f2359482a260)
-
-Caso um produto não cadastrado seja enviado como paramêtro, por exemplo, "/products?name=escovaDeDente", será retornada uma lista vazia que é referenciada por [ ];
-Caso não seja inserido um "name" completo, será retornado todos os produtos que contenham os paramêtros inseridos;
-Caso um produto cadastrado seja enviado como paramêtro, apenas ele será retornado, como podemos ver no exemplo "getAllProductsF2".
-
-![getAllProductsF2Request](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/6635c622-f9fc-4fe6-b290-3cdf7d3350e9)
-
-![getAllProductsF2Response](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/9c7d0ad8-7a01-4919-9052-ac87c5047e8f)
-
-
-#### createUser
-A requisição createUser tem apenas a funcionalidade de criar um novo usuário, porém alguns dados precisam ser inseridos no corpo da requisição, são esses:
-
-"id",
 "name",
 "email",
 "password".
+
 Contudo, foram implementadas as seguintes restrições:
-Caso o "id" já tenha sido cadastrado por outro usuário, não será possível concluir o cadastro;
-Caso o "email" já tenha sido cadastrado por outro usuário ou, não possua o formato de email "@email.com" não será possível concluir o cadastro;
-É obrigatório que o "password" tenha entre 8 e 12 caracteres, com letras maiúsculas e minúsculas e no mínimo um número e um caractere especial.
+Caso o "email" já tenha sido cadastrado por outro usuário, não será possível concluir o cadastro;
+Caso o "email" não esteja com a formatação correta (@email.com), não será possível concluir o cadastro;
+Caso a senha não atenda a um padrão mínimo pré-estabelecido, não será possível concluir o cadastro, no caso do Labook, é obrigatório que "password" tenha entre 8 e 12 caracteres, com letras maiúsculas e minúsculas, e no minio um caractere especial.
+Todos os usuários cadastrados vem com a "role" como "NORMAL" impedindo seu acesso a recursos que são reservados à administradores.
+Como resposta da requisição, o usuário recebe um token de autorização, lembre-se de guarda-lo pois será necessário para acessar as outras funcionalidades do sistema.
 
-![createUserRequest](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/42d905d3-2277-4a42-9eaa-03613f6a557c)
+![signUpRequest](https://github.com/LucasHProenca/Labook/assets/106993403/2c458ce6-0dda-4f80-9e2e-a90f03f1821a)
 
-![createUserResponse](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/69e437d2-97bf-46da-b0b4-02feb482afbd)
-
-
-##### createProduct
-A requisição createProduct possui apenas a funcionalidade de criar um novo produto, porém alguns dados precisam ser inseridos no corpo da requisição, são esses:
-
-"id",
-"name",
-"price",
-"description",
-"imageUrl".
-Contudo, foi implementada a seguinte restrição:
-Caso o "id" já tenha sido cadastrado por outro usuário, não será possível concluir o cadastro.
-
-![createProductRequest](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/cd7de88a-e7d8-4430-9441-b01852dbfe86)
-
-![createProductResponse](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/b2bcdcbe-eeac-423a-a44d-9a3541dca6c6)
+![signUpResponse](https://github.com/LucasHProenca/Labook/assets/106993403/469b8ae4-0960-4d1f-b03d-cb01f9d205f9)
 
 
-#### deleteUserById
-A requisição deleteUserById tem apenas a funcionalidade de apagar um usuário, onde é necessário enviar um "id" de um usuário junto ao caminho da requisição, contudo, caso o mesmo não esteja dentro do banco de dados, a deleção não será realizada e o usuário será informado da inconformidade.
+#### login
+A requisição login tem a funcionalidade de entrar na sua respectiva conta, porém alguns dados precisam ser inseridos no corpo da requisição, são esses:
 
-![deleteUserByIdRequest](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/0df690e5-e949-4281-a741-71692831fa6d)
+"email",
+"password".
 
-![deleteUserByIdResponse](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/32b4eecc-3a74-46f9-b184-8bf2b941fe18)
+Contudo, foram implementadas as seguintes restrições:
+Caso o "email" e o "password" não correspondam com os utilizados no endpoint "signup", não será possível acessar a conta.
+Como resposta da requisição, o usuário recebe um token de autorização, lembre-se de guarda-lo pois será necessário para acessar as outras funcionalidades do sistema.
+
+![loginRequest](https://github.com/LucasHProenca/Labook/assets/106993403/73ff1c27-97be-4bda-9d66-8342057df239)
+
+![loginResponse](https://github.com/LucasHProenca/Labook/assets/106993403/f97768bb-5fb7-494d-9c17-5d478516105e)
 
 
-#### deleteProductById
-A requisição deleteProductById tem apenas a funcionalidade de apagar um produto, onde é necessário enviar um "id" de um produto junto ao caminho da requisição, contudo, caso o mesmo não esteja dentro do banco de dados, a deleção não será realizada e o usuário será informado da inconformidade.
+##### editUser
+A requisição editUser permite ao usuário editar suas informações pessoais como "name", "email" e "password", no entanto, algumas restrições foram implementadas para o uso dessa funcionalidade, são essas:
+Apenas o dono da conta pode editar suas informações;
+Será necessário passar o token gerado no login para comprovar que a pessoa é realmente quem ela diz ser;
+Será necessário abrir uma solicitação para que um administrador informe ao usuário qual é seu "id" que foi gerado no momento em que fez o cadastro no sistema, pois o mesmo não tem acesso a essa informação por questão de segurança.
+Com o id em mãos, basta inseri-lo no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível editar as informações de cadastro citadas acima.
 
-![deleteProductByIdRequest](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/55defc99-6db7-45c3-bd44-515ab721e8a9)
+![editUserRequest](https://github.com/LucasHProenca/Labook/assets/106993403/a7112f68-10d3-415d-ac2d-7e819c27eb07)
 
-![deleteProductByIdResponse](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/da3e2efa-af32-48a0-b7c1-71364cbad681)
+
+#### deleteUser
+A requisição deleteUser permite ao usuário excluir sua conta, no entanto, algumas restrições foram implementadas para o uso dessa funcionalidade, são essas:
+Apenas o dono da conta ou um administrador podem apagar um usuário;
+Será necessário passar o token gerado no login para comprovar que a pessoa é realmente quem ela diz ser;
+Caso o usuário queira apagar sua própria conta, será necessário abrir uma solicitação para que um administrador informe a pessoa qual é seu "id" que foi gerado no momento em que fez o cadastro no sistema, pois o mesmo não tem acesso a essa informação por questão de segurança.
+Com o id em mãos, basta inseri-lo no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível apagar o cadastro do usuário.
+
+![deleteUser](https://github.com/LucasHProenca/Labook/assets/106993403/34138930-9f9d-4d88-8b4e-d2af067e9d0d)
+
+
+#### getPosts
+A requisição getPosts possui duas funcionalides diferentes:
+Caso nada seja escrito após "/posts" será retornada a lista completa de posts, como podemos ver no exemplo "getPostsF1";
+
+![getPostsF1Request](https://github.com/LucasHProenca/Labook/assets/106993403/08f098a8-e84f-4c31-9e6e-a71e48d7deb1)
+
+![getPostsF1Response](https://github.com/LucasHProenca/Labook/assets/106993403/90dcef9a-c41d-4c03-8214-3d57370928fe)
+
+Caso um post não cadastrado seja enviado como paramêtro, por exemplo, "/posts?q=qualquer-coisa-aqui", será retornada uma lista vazia que é referenciada por [ ];
+Caso não seja inserido um "id" completo representado pelo paramêtro "q", seram retornados todos os posts que contenham os paramêtros inseridos;
+Caso um post cadastrado seja enviado como paramêtro, apenas ele será retornado, como podemos ver no exemplo "getPostsF2".
+
+![getPostsF2Request](https://github.com/LucasHProenca/Labook/assets/106993403/42f4c7dc-5574-484c-ad0e-96d68a37b941)
+
+![getPostsF2Response](https://github.com/LucasHProenca/Labook/assets/106993403/6c252e55-f898-45d3-b571-25be419e9430)
+
+No entanto para ter acesso aos posts será necessário informar um token válido no campo "Authorization" na aba "Headers"
 
 
 #### editProductById
