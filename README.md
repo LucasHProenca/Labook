@@ -207,48 +207,52 @@ Caso um post cadastrado seja enviado como paramêtro, apenas ele será retornado
 No entanto para ter acesso aos posts será necessário informar um token válido no campo "Authorization" na aba "Headers"
 
 
-#### editProductById
-A requisição deleteUserById tem apenas uma funcionalidade, onde torna-se possível editar um produto, caso o mesmo já esteja cadastrado no banco de dados.
-Para isso, é necessário passar um "id" junto ao caminho da requisição, feito isso, o usuário pode decidir quais dados quer editar e quais não quer.
-Com isso em mente, podemos concluir que, se, no corpo da requisição for passado apenas um "name" será alterado apenas esse campo no produto selecionado, isso é válido para todos os campos demonstrados no exemplo.
+#### createPost
+A requisição createPost permite ao usuário criar uma nova postagem, informando apenas o conteúdo "content" da mesma no corpo da requisição.
+Entretanto é necessário também informar um token válido no campo "Authorization" na aba "Headers".
 
-![editProductByIdRequest](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/e73f4940-9908-453a-ba6a-3c9d6019c7a6)
-
-![editProductByIdResponse](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/027b90de-7ab5-4f31-bf5c-544d56045864)
+![createPostRequest](https://github.com/LucasHProenca/Labook/assets/106993403/35dddaa8-d0cb-42e2-bd64-0aebd2d6d62f)
 
 
-#### createPurchase
-A requisição createPurchase tem apenas a funcionalidade de criar um novo pedido, porém alguns dados precisam ser inseridos no corpo da requisição, são esses:
+#### editPost
+A requisição editPost permite ao usuário editar o conteúdo "content" da sua publicação, no entanto, algumas restrições foram implementadas para o uso dessa funcionalidade, são essas:
 
-"id",
-"buyer",
-"products",
-"id",
-"quantity".
-Contudo, foram implementadas as seguintes restrições:
-Caso o "id" já tenha sido cadastrado em outra compra, não será possível concluir o pedido;
-Caso o "buyer" não se encontre na lista de usuários, não será possível concluir o pedido;
-Caso o "id" do produto não se encontre na lista de produtos, não será possível concluir o pedido.
+Apenas o dono do post pode edita-lo;
+Será necessário passar o token gerado no login para comprovar que a pessoa é realmente quem ela diz ser;
+Também é requerido o "id" especifico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível editar a sua publicação.
 
-![createPurchaseRequest](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/ab7439bf-a76d-487d-8e6a-9e07b89f88b7)
-
-![createPurchaseResponse](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/dcd95a8f-e2f2-4d40-913d-ed4e301ddb10)
+![editPostRequest](https://github.com/LucasHProenca/Labook/assets/106993403/0fea1dc5-c3ec-48f2-9300-529cab91d731)
 
 
-#### getPurchaseById
-A requisição getPurchaseById tem apenas a funcionalidade de verificar quais itens foram comprados em certo pedido, onde é necessário enviar um "id" de um pedido junto ao caminho da requisição, contudo, caso o mesmo não esteja dentro do banco de dados, nada acontecerá e o usuário será informado da inconformidade.
+#### likeOrDislikePost
+A requisição likeOrDislikePost tem duas funcionalidades que, permitem ao usuário manifestar se gostou ou não gostou do conteúdo publicado por outra pessoa, no entanto, algumas restrições foram implementadas para o uso dessa funcionalidade, são essas:
 
-![getPurchaseByIdRequest](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/18249efc-7a9a-43c6-9426-573fa1a237fb)
+Quem criou o post não pode dar like ou dislike no mesmo;
+Caso dê um like em um post que já tenha dado like, o like é desfeito;
+Caso dê um dislike em um post que já tenha dado dislike, o dislike é desfeito;
+Caso dê um like em um post que tenha dado dislike, o like sobrescreve o dislike;
+Caso dê um dislike em um post que tenha dado like, o dislike sobrescreve o like;
 
-![getPurchaseByIdResponse](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/2d8304bb-cd9e-4f10-88a4-a4ecb6644765)
+Será necessário passar o token gerado no login para comprovar que a pessoa é realmente quem ela diz ser;
+Também é requerido o "id" especifico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível editar a sua publicação.
+Caso queira dar like num post, basta informar "like": true, no corpo da requisição "likePostF1";
+
+![likePostF1Request](https://github.com/LucasHProenca/Labook/assets/106993403/bbfc908b-58b9-4cfc-8408-61652d224bc9)
+
+Caso queira dar dislike num post, basta informar "like": false, no corpo da requisição "dislikePostF2".
+
+![dislikePostF2Request](https://github.com/LucasHProenca/Labook/assets/106993403/15647b2f-1859-4d43-8f5e-6f7009014fb1)
 
 
-#### deletePurchaseById
-A requisição deletePurchaseById tem apenas a funcionalidade de cancelar um pedido, onde é necessário enviar um "id" de um pedido junto ao caminho da requisição, contudo, caso o mesmo não esteja dentro do banco de dados, a deleção não será realizada e o usuário será informado da inconformidade.
+#### deletePost
+A requisição deletePost permite ao usuário excluir seu post, no entanto, algumas restrições foram implementadas para o uso dessa funcionalidade, são essas:
 
-![deletePurchaseByIdRequest](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/20d0e2fc-4d5c-4ceb-8897-bd0babef2aa9)
+Apenas o dono da publicação ou um administrador podem apagar um post;
+Será necessário passar o token gerado no login para comprovar que a pessoa é realmente quem ela diz ser;
+Também é requerido o "id" especifico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível deletar a sua publicação.
 
-![deletePurchaseByIdResponse](https://github.com/LucasHProenca/Labecommerce-back-end/assets/106993403/5b7292fe-ad11-40e0-acfe-735c0cf2df92)
+![deletePostRequest](https://github.com/LucasHProenca/Labook/assets/106993403/89dce26f-752b-41ad-bb30-6197d715502f)
+
 
 ---
 
