@@ -13,7 +13,7 @@
 ## 💻 Sobre o projeto
 
 🖥 Labook - Essa API foi desenvolvida baseada numa rede social famosa e com o objetivo de possibilitar o cadastro de novos usuários, assim como a criação de publicações e a interação entre as pessoas, podendo cada uma manifestar se gostou ou não daquele conteúdo exibido por outro usuário.
-Este projeto possui inumeras outras funcionalidades, as quais detalharemos mais adiante.
+Este projeto possui inúmeras funcionalidades, as quais detalharemos mais adiante.
 
 Projeto desenvolvido durante o **Bootcamp Web Full-Stack** da [Labenu](https://www.labenu.com.br/curso-de-programacao-web-full-stack-integral).
 Esse bootcamp é uma experiência online é um programa com mais de 1000 horas de experiência prática em desenvolvimento Full-stack e projetos individuais.
