@@ -144,7 +144,7 @@ A requisição signUp tem a funcionalidade de cadastrar uma nova conta, porém a
 Contudo, foram implementadas as seguintes restrições:
 Caso o "email" já tenha sido cadastrado por outro usuário, não será possível concluir o cadastro;
 Caso o "email" não esteja com a formatação correta (@email.com), não será possível concluir o cadastro;
-Caso a senha não atenda a um padrão mínimo pré-estabelecido, não será possível concluir o cadastro, no caso do Labook, é obrigatório que "password" tenha entre 8 e 12 caracteres, com letras maiúsculas e minúsculas, e no minio um caractere especial.
+Caso a senha não atenda a um padrão mínimo pré-estabelecido, não será possível concluir o cadastro, no caso do Labook, é obrigatório que "password" tenha entre 8 e 12 caracteres, com letras maiúsculas e minúsculas, e no mínimo um caractere especial.
 Todos os usuários cadastrados vem com a "role" como "NORMAL" impedindo seu acesso a recursos que são reservados à administradores.
 Como resposta da requisição, o usuário recebe um token de autorização, lembre-se de guarda-lo pois será necessário para acessar as outras funcionalidades do sistema.
 
