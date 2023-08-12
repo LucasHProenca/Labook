@@ -145,8 +145,8 @@ Contudo, foram implementadas as seguintes restrições:
 Caso o "email" já tenha sido cadastrado por outro usuário, não será possível concluir o cadastro;
 Caso o "email" não esteja com a formatação correta (@email.com), não será possível concluir o cadastro;
 Caso a senha não atenda a um padrão mínimo pré-estabelecido, não será possível concluir o cadastro, no caso do Labook, é obrigatório que "password" tenha entre 8 e 12 caracteres, com letras maiúsculas e minúsculas, e no mínimo um caractere especial.
-Todos os usuários cadastrados vem com a "role" como "NORMAL" impedindo seu acesso a recursos que são reservados à administradores.
-Como resposta da requisição, o usuário recebe um token de autorização, lembre-se de guarda-lo pois será necessário para acessar as outras funcionalidades do sistema.
+Todos os usuários cadastrados vem com a "role" como "NORMAL" impedindo seu acesso a recursos que são reservados a administradores.
+Como resposta da requisição, o usuário recebe um token de autorização, lembre-se de guardá-lo pois será necessário para acessar as outras funcionalidades do sistema.
 
 ![signUpRequest](https://github.com/LucasHProenca/Labook/assets/106993403/2c458ce6-0dda-4f80-9e2e-a90f03f1821a)
 
@@ -161,7 +161,7 @@ A requisição login tem a funcionalidade de entrar na sua respectiva conta, por
 
 Contudo, foram implementadas as seguintes restrições:
 Caso o "email" e o "password" não correspondam com os utilizados no endpoint "signup", não será possível acessar a conta.
-Como resposta da requisição, o usuário recebe um token de autorização, lembre-se de guarda-lo pois será necessário para acessar as outras funcionalidades do sistema.
+Como resposta da requisição, o usuário recebe um token de autorização, lembre-se de guardá-lo pois será necessário para acessar as outras funcionalidades do sistema.
 
 ![loginRequest](https://github.com/LucasHProenca/Labook/assets/106993403/73ff1c27-97be-4bda-9d66-8342057df239)
 
@@ -217,9 +217,9 @@ Entretanto é necessário também informar um token válido no campo "Authorizat
 #### editPost
 A requisição editPost permite ao usuário editar o conteúdo "content" da sua publicação, no entanto, algumas restrições foram implementadas para o uso dessa funcionalidade, são essas:
 
-Apenas o dono do post pode edita-lo;
+Apenas o dono do post pode editá-lo;
 Será necessário passar o token gerado no login para comprovar que a pessoa é realmente quem ela diz ser;
-Também é requerido o "id" especifico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível editar a sua publicação.
+Também é requerido o "id" específico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível editar a sua publicação.
 
 ![editPostRequest](https://github.com/LucasHProenca/Labook/assets/106993403/0fea1dc5-c3ec-48f2-9300-529cab91d731)
 
@@ -234,7 +234,7 @@ Caso dê um like em um post que tenha dado dislike, o like sobrescreve o dislike
 Caso dê um dislike em um post que tenha dado like, o dislike sobrescreve o like;
 
 Será necessário passar o token gerado no login para comprovar que a pessoa é realmente quem ela diz ser;
-Também é requerido o "id" especifico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível editar a sua publicação.
+Também é requerido o "id" específico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível editar a sua publicação.
 Caso queira dar like num post, basta informar "like": true, no corpo da requisição "likePostF1";
 
 ![likePostF1Request](https://github.com/LucasHProenca/Labook/assets/106993403/bbfc908b-58b9-4cfc-8408-61652d224bc9)
@@ -249,7 +249,7 @@ A requisição deletePost permite ao usuário excluir seu post, no entanto, algu
 
 Apenas o dono da publicação ou um administrador podem apagar um post;
 Será necessário passar o token gerado no login para comprovar que a pessoa é realmente quem ela diz ser;
-Também é requerido o "id" especifico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível deletar a sua publicação.
+Também é requerido o "id" específico da postagem, para ser inserido no campo "Path Variables" na aba "Params" junto ao token no campo "Authorization" na aba "Headers", e torna-se possível deletar a sua publicação.
 
 ![deletePostRequest](https://github.com/LucasHProenca/Labook/assets/106993403/89dce26f-752b-41ad-bb30-6197d715502f)
 
