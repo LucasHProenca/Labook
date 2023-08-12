@@ -101,13 +101,6 @@ export class PostBusiness {
         if (!payload) {
             throw new UnauthorizedError()
         }
-
-        if (content !== undefined) {
-            if (typeof content !== "string") {
-                throw new BadRequestError("'content' deve ser do tipo string")
-            }
-        }
-
         const postDB = await this.postDatabase.findPost(id)
 
         if (!postDB) {

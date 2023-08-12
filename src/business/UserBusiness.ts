@@ -159,25 +159,6 @@ export class UserBusiness {
     if (!payload) {
       throw new UnauthorizedError()
     }
-
-    if (name !== undefined) {
-      if (typeof name !== "string") {
-        throw new BadRequestError("'name' deve ser do tipo string")
-      }
-    }
-
-    if (email !== undefined) {
-      if (typeof email !== "string") {
-        throw new BadRequestError("'email' deve ser do tipo string")
-      }
-    }
-
-    if (password !== undefined) {
-      if (typeof password !== "string") {
-        throw new BadRequestError("'password' deve ser do tipo string")
-      }
-    }
-
     const userDB = await this.userDatabase.findUserById(id)
 
     if (!userDB) {
